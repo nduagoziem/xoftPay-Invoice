@@ -1,0 +1,90 @@
+<script setup>
+    import { useItemStore } from '@/stores/items';
+    import { RouterLink } from 'vue-router';
+    import { computed } from 'vue';
+    import { useToast } from 'vue-toastification';
+
+    const store = useItemStore()
+    const toast = useToast()
+
+    const props = defineProps({
+        searchQuery: String
+    });
+
+    const filteredItems = computed(() => {
+        if (!props.searchQuery) {
+            return store.items;
+        }
+
+        else {
+            return store.items.filter(items => 
+            items.itemName.toLowerCase().includes(props.searchQuery.toLowerCase())
+        )}
+    });
+
+    const deleteItem = (index) => {
+        const confirm = window.confirm("Are you sure you want to delete this item?")
+        if (confirm) {
+            store.items.splice(index, 1)
+            toast.success("Item deleted successfully")
+        }
+        else{toast.error("Item was not deleted")}
+    }
+</script>
+
+<template>
+    <div class="container-fluid mb-4">
+
+        <div class="container">
+            
+            <div class="row g-3">
+
+                <div v-for="item, index in filteredItems" :key="item.itemID" class="col-md-6 col-lg-6">
+
+                    <div class="card">
+
+                        <div class="card-body">
+                            <div class="d-flex justify-content-end mb-3">
+                                <RouterLink :to="'/items/edit/' + item.itemID">
+                                    <button> 
+                                        <span class="pi pi-pen-to-square px-1"></span> 
+                                    </button>
+                                </RouterLink>
+                                
+                                <button @click="deleteItem(index)"> <span class="pi pi-trash px-1"></span> </button>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <h5>Name:</h5> 
+                                <p>{{ item.itemName }}</p>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <h5>Price:</h5>
+                                <p>${{ item.itemPrice }}</p>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <h5>Quantity:</h5>
+                                <p>{{ item.itemQuantity }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>         
+            </div>
+        </div>
+    </div>
+</template>
+
+<style scoped>
+
+    .card {
+        background-color: aliceblue;
+        color: black;
+        border: none;
+    }
+
+    button {
+        border: none;
+        background-color: transparent;
+        color: black;
+    }
+
+</style>
