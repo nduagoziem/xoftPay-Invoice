@@ -39,17 +39,17 @@
         const invoice = store.invoices.find(inv => inv.invoiceID == id)
 
         if (invoice) {
-            invoice.customerName = customerName.value;
-            invoice.email = email.value;
-            invoice.itemName = itemName.value
-            invoice.price = price.value;
-            invoice.quantity = quantity.value;
-            invoice.shippingFee = shippingFee.value;
-            invoice.issuedDate = issuedDate.value;
-            invoice.dueDate = dueDate.value;
 
             const confirm = window.confirm("Are you sure you want to modify this invoice?")
             if (confirm) {
+                invoice.customerName = customerName.value;
+                invoice.email = email.value;
+                invoice.itemName = itemName.value
+                invoice.price = price.value;
+                invoice.quantity = quantity.value;
+                invoice.shippingFee = shippingFee.value;
+                invoice.issuedDate = issuedDate.value;
+                invoice.dueDate = dueDate.value;
                 toast.success("Invoice updated successfully");
                 router.push("/invoices");
             }

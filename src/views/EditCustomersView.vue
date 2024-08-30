@@ -27,11 +27,11 @@
     const submitForm = () => {
         const customer = store.customers.find(cus => cus.customerID == id);
         if (customer) {
-            customer.customerName = name.value;
-            customer.customerEmail = email.value;
 
             const confirm = window.confirm("Are you sure you want to modify this customer?")
             if (confirm) {
+                customer.customerName = name.value;
+                customer.customerEmail = email.value;
                 toast.success('Customer updated successfully');
                 router.push('/customers');
             }

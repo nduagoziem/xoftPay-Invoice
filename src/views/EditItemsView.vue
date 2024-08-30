@@ -10,8 +10,8 @@
     const toast = useToast();
     const id = route.params.id;
     const name = ref("");
-    const price = ref("");
-    const quantity = ref("");
+    const price = ref();
+    const quantity = ref();
 
     onMounted(
         () => {
@@ -28,12 +28,12 @@
     const submitForm = () => {
         const item = store.items.find(i => i.itemID == id);
         if (item) {
-            item.itemName = name.value;
-            item.itemPrice = price.value;
-            item.itemQuantity = quantity.value;
 
             const confirm = window.confirm("Are you sure you want to modify this item?")
             if (confirm) {
+                item.itemName = name.value;
+                item.itemPrice = price.value;
+                item.itemQuantity = quantity.value;
                 toast.success("Item updated successfully");
                 router.push("/items");
             }

@@ -28,12 +28,12 @@
     const submitForm = () => {
         const expense = store.expenses.find(exp => exp.expenseID == id);
         if (expense) {
-            expense.expenseName = name.value;
-            expense.expensePrice = price.value;
-            expense.expenseQuantity = quantity.value;
 
             const confirm = window.confirm("Are you sure you want to modify this expenditure?")
             if (confirm) {
+                expense.expenseName = name.value;
+                expense.expensePrice = price.value;
+                expense.expenseQuantity = quantity.value;
                 toast.success("Expenditure updated successfully");
                 router.push("/expenses");
             }
