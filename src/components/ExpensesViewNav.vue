@@ -13,17 +13,11 @@
 
         <div class="container d-flex justify-content-around">
 
-            <form :style="{background: 'whitesmoke'}">
+            <form :style="{background: 'white'}">
 
                 <span class="pi pi-search py-2 px-2"></span>
                 <input @input="searchExpenses" type="text" placeholder="Track your expenses..." 
                 :style="{width: '500px', background: 'transparent', border: 'none', outline: 'none', color: 'black', caretColor: 'black'}">
-                <span class="pi pi-sort-alt bg-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></span>
-                <ul class="dropdown-menu">
-                    <li class="dropdown-item">Newest First</li>
-                    <li class="dropdown-item">Oldest First</li>
-                </ul>
-                    
             </form>
 
             <!-- The modal will be visible on small screens only -->
@@ -34,17 +28,11 @@
                     <div class="modal-content">
                         <div class="modal-body">
 
-                            <form class="d-flex justify-content-between" :style="{background: 'white'}">
+                            <form class="d-flex" :style="{background: 'white'}">
 
                                 <span class="pi pi-search py-2 px-2"></span>
                                 <input @input="searchExpenses" type="text" placeholder="Track your expenses..." 
                                 :style="{border: 'none', outline: 'none', color: 'black', caretColor: 'black'}">
-                                <span class="pi pi-sort-alt py-2 bg-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></span>
-                                <ul class="dropdown-menu">
-                                    <li class="dropdown-item">Newest First</li>
-                                    <li class="dropdown-item">Oldest First</li>
-                                </ul>
-                                    
                             </form> 
 
                         </div>

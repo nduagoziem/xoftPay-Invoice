@@ -1,5 +1,62 @@
 <script setup>
+    import { useInvoiceStore } from '@/stores/invoice';
+    import { useExpenseStore } from '@/stores/expenses';
+    import { computed } from 'vue';
 
+    const invoiceStore = useInvoiceStore()
+    const expenseStore = useExpenseStore()
+
+    const grossIncome = computed(
+        () => {
+            return invoiceStore.invoices.reduce(
+                (acc, inc) => {
+                   return acc + inc.price
+                }, 0
+            )
+        }
+    )
+
+    const expenses = computed(
+        () => {
+            return expenseStore.expenses.reduce(
+                (acc, exp) => {
+                   return acc + exp.expensePrice
+                }, 0
+            )
+        }
+    )
+
+    const netIncome = computed(
+        () => {
+            return grossIncome.value - expenses.value
+        }
+    )
+
+    const formatNumber = (num) => {
+        const isNegative = num < 0;
+        const absoluteValue = Math.abs(num);
+
+        let formattedNumber;
+        
+        if (absoluteValue >= 1e12) {
+            formattedNumber = (absoluteValue / 1e12).toFixed(1) + "T"; // Trillions
+        } 
+        else if (absoluteValue >= 1e9) {
+            formattedNumber = (absoluteValue / 1e9).toFixed(1) + "B"; // Billions
+        } 
+        else if (absoluteValue >= 1e6) {
+            formattedNumber = (absoluteValue / 1e6).toFixed(1) + "M"; // Millions
+        } 
+        else if (absoluteValue >= 1e3) {
+            formattedNumber = (absoluteValue / 1e3).toFixed(1) + "K"; // Thousands
+        } 
+        else {
+            formattedNumber = absoluteValue.toLocaleString(); // Less than a thousand
+        }
+
+        // Prefix the dollar sign and handle the negative sign
+        return `${isNegative ? '-' : ''}$${formattedNumber}`;
+    };
 </script>
 
 <template>
@@ -13,9 +70,9 @@
                 <h6>Net Income</h6>
             </div>
             <div class="d-flex justify-content-between align-items-center">
-                <p class="green">$500</p>
-                <p class="red">$10</p>
-                <p class="green">$490</p>
+                <p :class="grossIncome <= 0 ? 'red' : 'green'">{{ formatNumber(grossIncome)  }}</p>
+                <p :class="expenses <= 0 ? 'green' : 'red'">{{ formatNumber(expenses) }}</p>
+                <p :class="netIncome <= 0 ? 'red' : 'green'">{{ formatNumber(netIncome) }}</p>
             </div>
         </div>
     </div>
@@ -33,13 +90,11 @@
 
     h6 {
         width: 200px;
-        /* border: 2px solid red; */
         text-align: center;
     }
 
     p {
         width: 200px;
-        /* border: 2px solid red; */
         text-align: center;
     }
 

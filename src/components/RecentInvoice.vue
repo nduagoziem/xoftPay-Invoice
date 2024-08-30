@@ -11,11 +11,11 @@
             
             <div class="row g-3">
 
-                <div class="col-md col-xlg-3"> <!-- Paid Invoice Card Column -->
+                <div class="col-md-6 col-lg-6"> <!-- Paid Invoice Card Column -->
 
                     <div class="card">
 
-                        <div class="card-header">
+                        <div class="card-body">
 
                             <div class="d-flex justify-content-between">
 
@@ -49,11 +49,11 @@
                     </div>
                 </div>
                 
-                <div class="col-md col-xlg-3"> <!-- UnPaid Invoice Card Column -->
+                <div class="col-md-6 col-lg-6"> <!-- UnPaid Invoice Card Column -->
 
                     <div class="card">
 
-                        <div class="card-header">
+                        <div class="card-body">
 
                             <div class="d-flex justify-content-between">
 
