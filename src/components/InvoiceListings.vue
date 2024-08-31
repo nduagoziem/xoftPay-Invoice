@@ -64,7 +64,7 @@
 
                     <div class="card">
 
-                        <div class="card-body">
+                        <div class="card-header">
 
                             <div class="d-flex justify-content-between">
 
@@ -118,7 +118,6 @@
 
     .card-body p {
         width: 100px;
-        /* border: 2px solid red; */
         text-align: center;
     }
 

@@ -51,17 +51,17 @@
                 invoice.issuedDate = issuedDate.value;
                 invoice.dueDate = dueDate.value;
                 toast.success("Invoice updated successfully");
-                router.push("/invoices");
+                router.back();
             }
             else {
                 toast.error("Invoice was not modified")
-                router.push("/invoices")
+                router.back()
             }
 
         }
         else {
             toast.error("Invoice not found");
-            router.push("/invoices")
+            router.back()
         }
     }
 

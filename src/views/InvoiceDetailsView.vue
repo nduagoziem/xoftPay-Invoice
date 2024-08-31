@@ -1,5 +1,6 @@
 <script setup>
-    import { RouterLink, useRoute } from 'vue-router';
+    import { useRoute } from 'vue-router';
+    import router from '@/router';
     import { ref, onMounted, computed } from 'vue';
     import { useInvoiceStore } from '@/stores/invoice';
 
@@ -37,19 +38,23 @@
          return price.value + shippingFee.value
         }
     );
+
+    const dynamicBackButton = () => { 
+        router.back()
+    }
 </script>
 
 <template>
-    <div class="container-fluid">
+    <div class="container-fluid mt-4">
         
         <div class="container d-flex justify-content-center align-items-center">
 
             <div class="card">
 
                 <div class="d-flex justify-content-between py-3">
-                    <RouterLink to="/invoices" class="nav-link">
+                    <button @click="dynamicBackButton()" to="/invoices" class="nav-link">
                         <span class="pi pi-arrow-left px-3 py-2"></span>
-                    </RouterLink>
+                    </button>
 
                     <h5 class="px-2">Invoice Details</h5>
                 </div>
