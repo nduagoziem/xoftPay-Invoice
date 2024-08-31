@@ -57,7 +57,7 @@
 
                     <div class="card">
 
-                        <div class="card-header">
+                        <div class="card-header"  :style="{background: 'aliceblue'}">
 
                             <div class="d-flex justify-content-between">
 
