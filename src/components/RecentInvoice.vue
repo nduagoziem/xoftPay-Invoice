@@ -105,7 +105,6 @@
     }
 
     .card-title {
-        font-family:cursive, Arial, Helvetica, sans-serif ;
         font-weight: bold;
     }
 
