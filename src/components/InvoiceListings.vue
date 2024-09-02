@@ -60,7 +60,7 @@
             
             <div class="row g-3">
 
-                <div v-for="invoice, index in filteredInvoices" :key="invoice.invoiceID" class="col-md-6 col-lg-6"> <!-- Paid Invoice Card Column -->
+                <div v-for="invoice, index in filteredInvoices" :key="invoice.invoiceID" class="col-md-6 col-lg-6">
 
                     <div class="card">
 
@@ -112,7 +112,6 @@
     }
 
     .card-title {
-        font-family:cursive, Arial, Helvetica, sans-serif ;
         font-weight: bold;
     }
 

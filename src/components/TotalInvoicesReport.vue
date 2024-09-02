@@ -72,7 +72,7 @@
             <div class="d-flex justify-content-between align-items-center">
                 <p :class="grossIncome <= 0 ? 'red' : 'green'">{{ formatNumber(grossIncome)  }}</p>
                 <p :class="expenses <= 0 ? 'green' : 'red'">{{ formatNumber(expenses) }}</p>
-                <p :class="netIncome <= 0 ? 'red' : 'green'">{{ formatNumber(netIncome) }}</p>
+                <p :class="netIncome <= expenses ? 'red' : 'green'">{{ formatNumber(netIncome) }}</p>
             </div>
         </div>
     </div>

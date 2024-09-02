@@ -45,7 +45,7 @@
 </script>
 
 <template>
-    <div class="container-fluid mt-4">
+    <div class="container-fluid">
         
         <div class="container d-flex justify-content-center align-items-center">
 
