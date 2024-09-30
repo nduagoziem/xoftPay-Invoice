@@ -8,6 +8,9 @@ export default defineConfig({
   plugins: [
     vue(),
   ],
+  build: {
+    manifest: true,
+  }, 
   server: {
     port: 4050,
   },
