@@ -5,7 +5,8 @@
     import InputText from 'primevue/inputtext';
     import Password from 'primevue/password';
 
-    const value = ref(null);
+    const passwordValue = ref(null);
+    const confirmPasswordValue = ref(null)
 </script>
 
 <template>
@@ -30,14 +31,14 @@
                 <InputGroupAddon>
                     <span class="pi pi-lock"></span>
                 </InputGroupAddon>
-                <Password v-model="value" toggleMask :feedback="false" placeholder="Password" required/>
+                <Password v-model="passwordValue" toggleMask :feedback="false" placeholder="Password" required/>
             </InputGroup>
 
             <InputGroup  class="input mb-4 py-2">
                 <InputGroupAddon>
                     <span class="pi pi-lock"></span>
                 </InputGroupAddon>
-                <Password v-model="value" toggleMask :feedback="false" placeholder="Confirm Password" required/>
+                <Password v-model="confirmPasswordValue" toggleMask :feedback="false" placeholder="Confirm Password" required/>
             </InputGroup>
         </div>
 
