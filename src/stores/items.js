@@ -33,11 +33,14 @@ export const useItemStore = defineStore("items",
             price.value = ""
             quantity.value = ""
         }
-        
-        return{items, name, price, quantity, addItem}
-    },
 
-    {  // Plugin for automatically saving this store to localStorage
-        persist: true
-    }
+        //Checking and removing item data that was saved in local storage
+        // Data will be saved in the database
+        const storage = localStorage.getItem("items")
+        if (storage) {
+            localStorage.clear("items")
+        }
+
+        return{items, name, price, quantity, addItem, storage}
+    },
 )

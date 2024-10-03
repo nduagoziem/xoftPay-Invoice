@@ -33,11 +33,14 @@ export const useExpenseStore = defineStore("expenses",
             price.value = ""
             quantity.value = ""
         }
-        
-        return{expenses, name, price, quantity, addExpense}
-    },
 
-    {  // Plugin for automatically saving this store to localStorage
-        persist: true
-    }
+        // Checking and removing expenses data that was saved in local storage
+        // Data will be saved in the database
+        const storage = localStorage.getItem("expenses")
+        if (storage) {
+            localStorage.clear("expenses")
+        }
+        
+        return{expenses, name, price, quantity, addExpense, storage}
+    },
 )

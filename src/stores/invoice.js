@@ -50,10 +50,13 @@ export const useInvoiceStore = defineStore("invoices",
             dueDate.value = ""
         }
 
-        return{invoices, addInvoice, customerName, email, itemName, price, quantity, shippingFee, issuedDate, dueDate}
-    },
+        //Checking and removing invoice data that was saved in local storage
+        // Data will be saved in the database
+        const storage = localStorage.getItem("invoices")
+        if (storage) {
+            localStorage.clear("invoices")
+        }
 
-    { // Plugin for automatically saving this store to localStorage
-        persist: true
-    }
+        return{invoices, addInvoice, customerName, email, itemName, price, quantity, shippingFee, issuedDate, dueDate, storage}
+    },
 )

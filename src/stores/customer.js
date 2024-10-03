@@ -30,11 +30,14 @@ export const useCustomerStore = defineStore("customers",
             fullName.value = ""
             email.value = ""
         }
-        
-        return{customers, fullName, email, addCustomer}
-    },
 
-    {  // Plugin for automatically saving this store to localStorage
-        persist: true
-    }
+        //Checking and removing customer data that was saved in local storage
+        // Data will be saved in the database
+        const storage = localStorage.getItem("customers")
+        if (storage) {
+            localStorage.clear("customers")
+        }
+        
+        return{customers, fullName, email, addCustomer, storage}
+    },
 )
