@@ -1,9 +1,9 @@
 <script setup>
-    import DashBoard from '@/components/DashBoard.vue';
+    import HomeGlassComponent from '@/components/HomeGlassComponent.vue';
 </script>
 
 <template>
-    <DashBoard />
+    <HomeGlassComponent />
 </template>
 
 <style scoped>
