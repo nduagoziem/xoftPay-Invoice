@@ -22,14 +22,12 @@
         
         <div class="container" :style="{display: 'flex', justifyContent: 'space-between'}">
 
-            <RouterLink to="/">
-                <div class="logo"></div>
-            </RouterLink>
+            <div class="logo"></div>
 
             <!-- For Large Screens Only -->
             <div class="nav-items">
-                <RouterLink to="/" class="nav-link">
-                    <span :class="[activeLink('/') ? 'bg-dark text-light p-2' : '']">Home</span>
+                <RouterLink to="/dashboard" class="nav-link">
+                    <span :class="[activeLink('/dashboard') ? 'bg-dark text-light p-2' : '']">DashBoard</span>
                 </RouterLink>
                 <RouterLink to="/customers" class="nav-link">
                     <span :class="[activeLink('/customers') ? 'bg-dark text-light p-2' : '']">Customers</span>
@@ -47,8 +45,8 @@
 
             <!-- For Small Screens Only -->
             <div class="smallScreenIcons">
-                <RouterLink to="/" class="nav-link">
-                    <span :class="[smallScreenNavIcons.home, activeLink('/') ? 'bg-dark p-1' : '']"></span>
+                <RouterLink to="/dashboard" class="nav-link">
+                    <span :class="[smallScreenNavIcons.home, activeLink('/dashboard') ? 'bg-dark p-1' : '']"></span>
                 </RouterLink>
                 <RouterLink to="/customers" class="nav-link">
                     <span :class="[smallScreenNavIcons.customers, activeLink('/customers') ? 'bg-dark p-1' : '']"></span>
@@ -70,7 +68,7 @@
 
 <style scoped>
 
-    .logo{
+    .logo {
         height: 30px;
         width: 30px;
         background: linear-gradient(to right, rgb(123, 183, 235), black);
