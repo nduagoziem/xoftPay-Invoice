@@ -23,9 +23,8 @@
     });
 
     const deleteCustomer = (index) => {
-        const confirm = window.confirm("Are you sure you want to delete this customer?")
-        if (confirm) {
-            store.customers.splice(index, 1)
+        const del = store.customers.splice(index, 1)
+        if (del) {
             toast.success("Customer deleted successfully")
         }
         else{toast.error("Customer was not deleted")}
@@ -54,9 +53,28 @@
                                         </button>
                                     </RouterLink>
 
-                                    <button @click="deleteCustomer(index)"> 
+                                    <button data-bs-toggle="modal" :data-bs-target="'#deleteModal' + index"> 
                                         <span class="pi pi-trash px-1"></span> 
                                     </button>
+
+                                    <!-- Confirmation Modal For Deleting Customers -->
+                                    <div class="modal fade" :id="'deleteModal' + index" tabindex="-1" aria-labelledby="deleteCustomer" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h1 class="modal-title fs-5" id="deleteCustomer">Delete Customer</h1>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    Are you sure you want to delete this customer?
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="cancel-modal px-3 py-1" data-bs-dismiss="modal">Cancel</button>
+                                                    <button @click="deleteCustomer(index)" type="button" data-bs-dismiss="modal" class="delete-modal px-3 py-1">Delete</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <span>{{ customer.customerEmail }}</span>
@@ -84,6 +102,20 @@
         border: none;
         background-color: transparent;
         color: black;
+    }
+
+    .cancel-modal {
+        background-color: black;
+        border-radius: 4px;
+        color: white;
+        border: none;
+    }
+
+    .delete-modal {
+        background-color: rgb(150, 7, 7);
+        border-radius: 4px;
+        border: none;
+        color: white;
     }
 
 </style>

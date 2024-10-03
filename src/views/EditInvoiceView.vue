@@ -3,6 +3,7 @@
     import { useInvoiceStore } from '@/stores/invoice';
     import { ref, onMounted } from 'vue';
     import { useToast } from 'vue-toastification';
+    import { Modal } from 'bootstrap/dist/js/bootstrap.bundle.min';
 
     const router = useRouter()
     const route = useRoute()
@@ -17,6 +18,7 @@
     const shippingFee = ref();
     const issuedDate = ref();
     const dueDate = ref();
+    const confirmModal = ref(null)
 
     onMounted(
         () => {
@@ -35,29 +37,26 @@
         }
     )
 
+    const showConfirmationModal = () => {
+        const modalInstance = new Modal(confirmModal.value);
+        modalInstance.show();
+    };
+
     const submitForm = () =>{
         const invoice = store.invoices.find(inv => inv.invoiceID == id)
 
         if (invoice) {
 
-            const confirm = window.confirm("Are you sure you want to modify this invoice?")
-            if (confirm) {
-                invoice.customerName = customerName.value;
-                invoice.email = email.value;
-                invoice.itemName = itemName.value
-                invoice.price = price.value;
-                invoice.quantity = quantity.value;
-                invoice.shippingFee = shippingFee.value;
-                invoice.issuedDate = issuedDate.value;
-                invoice.dueDate = dueDate.value;
-                toast.success("Invoice updated successfully");
-                router.back();
-            }
-            else {
-                toast.error("Invoice was not modified")
-                router.back()
-            }
-
+            invoice.customerName = customerName.value;
+            invoice.email = email.value;
+            invoice.itemName = itemName.value
+            invoice.price = price.value;
+            invoice.quantity = quantity.value;
+            invoice.shippingFee = shippingFee.value;
+            invoice.issuedDate = issuedDate.value;
+            invoice.dueDate = dueDate.value;
+            toast.success("Invoice updated successfully");
+            router.back();
         }
         else {
             toast.error("Invoice not found");
@@ -65,12 +64,17 @@
         }
     }
 
+    const cancel = () => {
+        router.push('/invoices')
+        toast.error('Invoice was not modified');
+    }
+
 </script>
 
 <template>
     <div class="container-fluid">
         <div class="container d-flex justify-content-center py-5">
-            <form @submit.prevent="submitForm">
+            <form @submit.prevent="showConfirmationModal">
                 <h3 class=" py-2 text-center">Modify Invoice</h3>
 
                 <label for="customerName" class="d-block m-2">Customer Name:
@@ -117,6 +121,26 @@
                     <button type="submit">Update Invoice</button>
                 </div>
             </form>
+
+            <!--Confirmation Modal For Editing Invoices-->
+            <div class="modal fade" id="editCustomer" tabindex="-1" aria-labelledby="editCustomerLabel" aria-hidden="true" ref="confirmModal">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="editCustomerLabel">Edit Invoice</h1>
+                            <button @click="cancel" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            You are about to edit this invoice
+                        </div>
+                        <div class="modal-footer">
+                            <button @click="cancel" type="button" class="cancel-modal px-3 py-1" data-bs-dismiss="modal">Cancel</button>
+                            <button @click="submitForm" type="button"  data-bs-dismiss="modal" class="edit-modal px-4 py-1">Edit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div> 
 </template>
@@ -145,12 +169,27 @@
         font-size: large;
     }
 
-    button {
+    .submit {
         background-color: black;
+        color: white;
         border: none;
         border-radius: 5px;
         width: 300px;
         height: 50px;
+    }
+
+    .cancel-modal {
+        background-color: black;
+        border-radius: 4px;
+        color: white;
+        border: none;
+    }
+
+    .edit-modal {
+        background-color: rgb(123, 183, 235);
+        border-radius: 4px;
+        color: white;
+        border: none;
     }
 
     @media (min-width: 1500px) and (max-width: 9999px) {

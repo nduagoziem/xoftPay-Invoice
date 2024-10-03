@@ -25,9 +25,8 @@
     });
 
     const deleteInvoice = (index) => {
-        const confirm = window.confirm("Are you sure you want to delete this invoice?")
-        if (confirm) {
-            store.invoices.splice(index, 1)
+        const del = store.invoices.splice(index, 1)
+        if (del) {
             toast.success("Invoice deleted successfully")
         }
         else{toast.error("Invoice was not deleted")}
@@ -74,7 +73,27 @@
                                     <RouterLink :to="'/invoices/edit/' + invoice.invoiceID">
                                         <button class="piBtn"> <span class="pi pi-pen-to-square px-1"></span> </button>
                                     </RouterLink>
-                                    <button @click="deleteInvoice(index)" class="piBtn"> <span class="pi pi-trash px-1"></span> </button>
+                                    <button data-bs-toggle="modal" :data-bs-target="'#deleteModal' + index" class="piBtn"> <span class="pi pi-trash px-1"></span> </button>
+
+                                    <!-- Confirmation Modal For Deleting Invoices -->
+                                    <div class="modal fade" :id="'deleteModal' + index" tabindex="-1" aria-labelledby="deleteInvoice" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h1 class="modal-title fs-5" id="deleteInvoice">Delete Invoice</h1>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    Are you sure you want to delete this invoice?
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="cancel-modal px-3 py-1" data-bs-dismiss="modal">Cancel</button>
+                                                    <button @click="deleteInvoice(index)" type="button" data-bs-dismiss="modal" class="delete-modal px-3 py-1">Delete</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
                             <span>{{ invoice.email }}</span>
@@ -118,6 +137,20 @@
     .card-body p {
         width: 100px;
         text-align: center;
+    }
+
+    .cancel-modal {
+        background-color: black;
+        border-radius: 4px;
+        color: white;
+        border: none;
+    }
+
+    .delete-modal {
+        background-color: rgb(150, 7, 7);
+        border-radius: 4px;
+        border: none;
+        color: white;
     }
 
     .readMore {

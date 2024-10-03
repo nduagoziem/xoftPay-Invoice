@@ -3,6 +3,7 @@
     import { useItemStore } from '@/stores/items';
     import { ref, onMounted } from 'vue';
     import { useToast } from 'vue-toastification';
+    import { Modal } from 'bootstrap/dist/js/bootstrap.bundle.min';
 
     const router = useRouter();
     const route = useRoute();
@@ -12,6 +13,7 @@
     const name = ref("");
     const price = ref();
     const quantity = ref();
+    const confirmModal = ref(null)
 
     onMounted(
         () => {
@@ -25,34 +27,37 @@
         }
     )
 
+    const showConfirmationModal = () => {
+        const modalInstance = new Modal(confirmModal.value);
+        modalInstance.show();
+    };
+
     const submitForm = () => {
         const item = store.items.find(i => i.itemID == id);
         if (item) {
 
-            const confirm = window.confirm("Are you sure you want to modify this item?")
-            if (confirm) {
-                item.itemName = name.value;
-                item.itemPrice = price.value;
-                item.itemQuantity = quantity.value;
-                toast.success("Item updated successfully");
-                router.push("/items");
-            }
-            else {
-                toast.error("Item was not modified")
-                router.push("/items")
-            }
+            item.itemName = name.value;
+            item.itemPrice = price.value;
+            item.itemQuantity = quantity.value;
+            toast.success("Item updated successfully");
+            router.push("/items");
         } 
         else {
             toast.error("Item not found");
             router.push("/items")
         }
     }
+
+    const cancel = () => {
+        router.push('/items')
+        toast.error('Item was not modified');
+    }
 </script>
 
 <template>
     <div class="container-fluid">
         <div class="container d-flex justify-content-center py-5">
-            <form @submit.prevent="submitForm">
+            <form @submit.prevent="showConfirmationModal">
                 <h3 class=" py-2 text-center">Edit Item</h3>
 
                 <label for="itemName" class="d-block m-2">Item Name:
@@ -71,9 +76,28 @@
                 <input type="number" id="itemQuantity" class="px-2" required v-model="quantity">
 
                 <div class="d-flex justify-content-center mt-5">
-                    <button type="submit">Update Item</button>
+                    <button class="submit" type="submit">Update Item</button>
                 </div>
             </form>
+
+            <!--Confirmation Modal For Editing Items-->
+            <div class="modal fade" id="editItem" tabindex="-1" aria-labelledby="editItemLabel" aria-hidden="true" ref="confirmModal">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="editItemLabel">Edit Item</h1>
+                            <button @click="cancel" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            You are about to edit this item
+                        </div>
+                        <div class="modal-footer">
+                            <button @click="cancel" type="button" class="cancel-modal px-3 py-1" data-bs-dismiss="modal">Cancel</button>
+                            <button @click="submitForm" type="button"  data-bs-dismiss="modal" class="edit-modal px-4 py-1">Edit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div> 
 </template>
@@ -102,12 +126,27 @@
         font-size: large;
     }
 
-    button {
+    .submit {
         background-color: black;
+        color: white;
         border: none;
         border-radius: 5px;
         width: 300px;
         height: 50px;
+    }
+
+    .cancel-modal {
+        background-color: black;
+        border-radius: 4px;
+        color: white;
+        border: none;
+    }
+
+    .edit-modal {
+        background-color: rgb(123, 183, 235);
+        border-radius: 4px;
+        color: white;
+        border: none;
     }
 
     @media (min-width: 1500px) and (max-width: 9999px) {
