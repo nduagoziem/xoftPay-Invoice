@@ -4,12 +4,51 @@
     import InputGroupAddon from 'primevue/inputgroupaddon';
     import InputText from 'primevue/inputtext';
     import Password from 'primevue/password';
+    import router from '@/router';
+    import axios from 'axios';
+    import { loginUrl } from '@/config/api';
+    import { useToast } from 'vue-toastification';
 
-    const value = ref(null);
+    const username = ref("");
+    const password = ref("");
+
+    const toast = useToast()
+
+    async function loginUser() {
+
+        try {
+
+            const res = await axios.post(`${loginUrl}`, 
+                {
+                    username: username.value,
+                    password: password.value
+                }, 
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }
+            );
+
+
+            if (res.data.success) {
+                username.value = "";
+                password.value = "";
+
+                router.push('/dashboard');
+            } 
+            else {
+                toast("Login failed");
+            }
+        }
+        catch(err) {
+            console.error(err)
+        }
+    }
 </script>
 
 <template>
-    <form action="">
+    <form @submit.prevent="loginUser">
 
         <div>
 
@@ -17,14 +56,14 @@
                 <InputGroupAddon>
                     <span class="pi pi-user-edit"></span>
                 </InputGroupAddon>
-                <InputText placeholder="Username" required/>
+                <InputText v-model="username" placeholder="Username" required/>
             </InputGroup>
 
             <InputGroup  class="input mb-4 py-2">
                 <InputGroupAddon>
                     <span class="pi pi-lock"></span>
                 </InputGroupAddon>
-                <Password v-model="value" toggleMask :feedback="false" placeholder="Password" required/>
+                <Password v-model="password" toggleMask :feedback="false" placeholder="Password" required/>
             </InputGroup>
 
             <button type="submit" class="py-2 text-center">Login</button>
