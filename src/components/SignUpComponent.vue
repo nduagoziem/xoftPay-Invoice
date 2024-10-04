@@ -4,27 +4,69 @@
     import InputGroupAddon from 'primevue/inputgroupaddon';
     import InputText from 'primevue/inputtext';
     import Password from 'primevue/password';
+    import axios from 'axios';
+    import { registerUrl } from '@/config/api';
+    import router from '@/router';
+    import { useToast } from 'vue-toastification';
 
+    const fullName = ref("")
+    const userName = ref("")
     const passwordValue = ref(null);
-    const confirmPasswordValue = ref(null)
+    const confirmPasswordValue = ref(null);
+
+    const toast = useToast()
+
+    const registerData = {
+        fullName: fullName,
+        userName: userName,
+        passwordValue: passwordValue,
+        confirmPasswordValue: confirmPasswordValue,
+    }
+
+    async function registerUser() {
+        try {
+            const res = await axios.post(`${registerUrl}`, registerData,
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                }
+            );
+
+            if (res.data.success) {
+                fullName.value = "";
+                userName.value = "";
+                passwordValue.value = "";
+                confirmPasswordValue.value = "";
+
+                router.push(res.data.redirect);
+            } 
+            else {
+                toast.error("Something went wrong, Try again"); 
+            }
+            
+            return res;
+        }
+        catch (err) {console.error(err)}
+    } 
 </script>
 
 <template>
-    <form action="">
+    <form @submit.prevent="registerUser">
 
         <div>
             <InputGroup class="mt-4 mb-4 py-2">
                 <InputGroupAddon>
                     <span class="pi pi-user"></span>
                 </InputGroupAddon>
-                <InputText placeholder="Full Name" required/>
+                <InputText placeholder="Full Name" required v-model="fullName"/>
             </InputGroup>
 
             <InputGroup class="mt-4 mb-4 py-2">
                 <InputGroupAddon>
                     <span class="pi pi-user-edit"></span>
                 </InputGroupAddon>
-                <InputText placeholder="Username" required/>
+                <InputText placeholder="Username" require v-model="userName"/>
             </InputGroup>
 
             <InputGroup  class="input mb-4 py-2">

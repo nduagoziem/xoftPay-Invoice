@@ -1,4 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import axios from 'axios'
+import { checkSessionUrl } from '@/config/api'
 import HomeView from '@/views/HomeView.vue'
 import CustomersView from '@/views/CustomersView.vue'
 import ItemsView from '@/views/ItemsView.vue'
@@ -28,24 +30,28 @@ const router = createRouter({
     {
       path: "/dashboard",
       name: "dashboard",
+      meta: { requiresAuth: true },
       component: DashBoardView,
     },
 
     {
       path: "/customers",
       name: "customers",
+      meta: { requiresAuth: true },
       component: CustomersView,
     },
 
     {
       path: "/customers/add",
       name: "add-customers",
+      meta: { requiresAuth: true },
       component: AddCustomersView,
     },
 
     {
       path: "/customers/edit/:id",
       name: "edit-customers",
+      meta: { requiresAuth: true },
       component: EditCustomersView,
     },
 
@@ -53,60 +59,70 @@ const router = createRouter({
     {
       path: "/items",
       name: "items",
+      meta: { requiresAuth: true },
       component: ItemsView,
     },
 
     {
       path: "/items/add",
       name: "add-items",
+      meta: { requiresAuth: true },
       component: AddItemsView,
     },
 
     {
       path: "/items/edit/:id",
       name: "edit-items",
+      meta: { requiresAuth: true },
       component: EditItemsView,
     },
 
     {
       path: "/invoices",
       name: "invoices",
+      meta: { requiresAuth: true },
       component: InvoiceView,
     },
 
     {
       path: "/invoices/add",
       name: "add-invoices",
+      meta: { requiresAuth: true },
       component: AddInvoiceView,
     },
 
     {
       path: "/invoices/edit/:id",
       name: "edit-invoices",
+      meta: { requiresAuth: true },
       component: EditInvoiceView,
     },
 
     {
       path: "/invoices/invoice-details/:id",
       name: "invoice-details",
+      meta: { requiresAuth: true },
       component: InvoiceDetailsView,
     },
 
     {
       path: "/expenses",
       name: "expenses",
+      meta: { requiresAuth: true },
       component: ExpensesView,
     },
 
     {
       path: "/expenses/add",
       name: "add-expenses",
+      meta: { requiresAuth: true },
       component: AddExpensesView,
     },
 
     {
       path: "/expenses/edit/:id",
       name: "edit-expenses",
+      meta: { requiresAuth: true },
       component: EditExpensesView,
     },
 
@@ -119,3 +135,27 @@ const router = createRouter({
 })
 
 export default router
+
+router.beforeEach(async (to, from, next) => {
+  
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    try {
+      // Check session from backend to confirm if the user is authenticated
+      const response = await axios.get(`${checkSessionUrl}`);
+        
+      if (response.data.authenticated) {
+        next(); // User is authenticated, allow access to the route
+      } 
+      else {
+        next({ name: 'home' }); // User is not authenticated, redirect to Login/Sign Up page
+      }
+    } 
+    catch (error) {
+      next({ name: 'home' }); // On error (e.g., session expired), redirect to Login/Sign Up
+    }
+  }
+  else {
+    next(); // This route does not require authentication
+  }
+  
+});
