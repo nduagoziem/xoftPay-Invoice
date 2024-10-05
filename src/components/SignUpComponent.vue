@@ -4,7 +4,7 @@
     import InputGroupAddon from 'primevue/inputgroupaddon';
     import InputText from 'primevue/inputtext';
     import Password from 'primevue/password';
-    import axios from 'axios';
+    // import axios from 'axios';
     import { registerUrl } from '@/config/api';
     import router from '@/router';
     import { useToast } from 'vue-toastification';
@@ -25,7 +25,7 @@
 
     async function registerUser() {
         try {
-            const res = await axios.post(`${registerUrl}`, registerData,
+            const res = await fetch.post(`${registerUrl}`, registerData,
                 {
                     headers: {
                         'Content-Type': 'application/json',
@@ -33,7 +33,9 @@
                 }
             );
 
-            if (res.data.success) {
+            const result = await res.json()
+
+            if (result.data.success) {
                 fullName.value = "";
                 userName.value = "";
                 passwordValue.value = "";

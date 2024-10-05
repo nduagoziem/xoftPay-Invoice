@@ -5,7 +5,7 @@
     import InputText from 'primevue/inputtext';
     import Password from 'primevue/password';
     import router from '@/router';
-    import axios from 'axios';
+    // import axios from 'axios';
     import { loginUrl } from '@/config/api';
     import { useToast } from 'vue-toastification';
 
@@ -18,7 +18,7 @@
 
         try {
 
-            const res = await axios.post(`${loginUrl}`, 
+            const res = await fetch.post(`${loginUrl}`, 
                 {
                     username: username.value,
                     password: password.value
@@ -30,8 +30,9 @@
                 }
             );
 
-
-            if (res.data.success) {
+            const result = await res.json()
+            
+            if (result.data.success) {
                 username.value = "";
                 password.value = "";
 
