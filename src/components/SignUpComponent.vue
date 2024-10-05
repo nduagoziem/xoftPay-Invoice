@@ -39,7 +39,7 @@
                 passwordValue.value = "";
                 confirmPasswordValue.value = "";
 
-                router.push(res.data.redirect);
+                router.push("/dashboard");
             } 
             else {
                 toast.error("Something went wrong, Try again"); 
