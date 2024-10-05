@@ -30,9 +30,8 @@ async function loginUser() {
         },
     );
 
-    const result = await res.json();
 
-    if (result.data.success) {
+    if (res.data.success) {
       username.value = "";
       password.value = "";
 
