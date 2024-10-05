@@ -25,12 +25,17 @@
 
     async function registerUser() {
         try {
-            const res = await fetch.post(`${registerUrl}`, registerData,
+            const res = await fetch(`${registerUrl}`, 
                 {
+                    method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
+                    body: JSON.stringify(
+                        {registerData}
+                    )
                 }
+
             );
 
             const result = await res.json()
