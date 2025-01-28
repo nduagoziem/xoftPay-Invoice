@@ -1,6 +1,6 @@
 # xoftPay Invoice
 
-xoftPay Invoice is an easy to use invoice application built with vue.js 3, specifically designed for small scale to medium scale business enterprises.
+xoftPay Invoice is an easy-to-use invoice application built with vue.js 3, specifically designed for small-scale business enterprises.
 
 ## Recommended IDE Setup
 
