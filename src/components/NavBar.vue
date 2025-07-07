@@ -22,7 +22,9 @@
         
         <div class="container" :style="{display: 'flex', justifyContent: 'space-between'}">
 
-            <div class="logo"></div>
+            <RouterLink to="/">
+                <div class="logo"></div> 
+            </RouterLink>
 
             <!-- For Large Screens Only -->
             <div class="nav-items">
